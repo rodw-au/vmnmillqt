@@ -1,0 +1,33 @@
+
+
+# Communication
+#net pyvcp-is-connected vfdmod.rs485.is-connected => pyvcp.is-connected
+#net pyvcp-error-count vfdmod.rs485.error-count => qtdragon.spindle-modbus-errors
+#net pyvcp-last-error vfdmod.rs485.last-error => qtdragon.spindle-modbus-errors
+#User parameters
+#net pyvcp-command-frequency vfdmod.parameters.freq-running => pyvcp.freq-running
+net pyvcp-dc-bus-voltage vfdmod.parameters.bus-voltage => qtdragon.spindle-volts
+net pyvcp-output-current vfdmod.parameters.output-current => qtdragon.spindle-amps
+#net pyvcp-output-frequency vfdmod.parameters.output-frequency => pyvcp.output-frequency
+net run-speed  vfdmod.spindle.rpm-out  => scalebelts.0.speed-fb-in
+net spindle-speed scalebelts.0.speed-fb-out => spindle.0.speed-in
+#net spindle-speed pyvcp.rpm-out
+#net spindle-at-speed => pyvcp.at-speed
+net spindle:inhibit qtdragon.spindle-inhibit => spindle.0.inhibit
+
+#net scaled_speed scalebelts.0.rpm-out => pyvcp.rpm-in
+
+# belt scaling
+
+#net b1 pyvcp.gear.Belt-1 => scalebelts.0.belt1
+#net b2 pyvcp.gear.Belt-2 => scalebelts.0.belt2
+#net b3 pyvcp.gear.Belt-3 => scalebelts.0.belt3
+#net b4 pyvcp.gear.Belt-4 => scalebelts.0.belt4
+#net b5 pyvcp.gear.Belt-5 => scalebelts.0.belt5
+#net b6 pyvcp.gear.Belt-6 => scalebelts.0.belt6
+#net b7 pyvcp.gear.Belt-7 => scalebelts.0.belt7
+#net b8 pyvcp.gear.Belt-8 => scalebelts.0.belt8
+
+#net max_RPM scalebelts.0.this-max-rpm  => pyvcp.maxRPM
+#net is_valid scalebelts.0.valid => pyvcp.Valid-Gears
+

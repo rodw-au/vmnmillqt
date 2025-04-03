@@ -1,0 +1,19 @@
+Component Pins:
+Owner   Type  Dir         Value  Name
+    61  bit   IN          FALSE  pyvcp.at-speed
+    61  float IN              0  pyvcp.bus-voltage
+    61  s32   IN              0  pyvcp.error-count <== pyvcp-error-count
+    61  float IN              0  pyvcp.fault-code
+    61  bit   OUT         FALSE  pyvcp.fault-reset
+    61  float IN              0  pyvcp.freq-running
+    61  bit   IN           TRUE  pyvcp.is-connected <== pyvcp-is-connected
+    61  s32   IN              0  pyvcp.last-error <== pyvcp-last-error
+    61  float IN              0  pyvcp.output-current
+    61  float IN              0  pyvcp.output-torque
+    61  float IN              0  pyvcp.output-voltage
+    61  float IN              0  pyvcp.power-on-time
+    61  float IN              0  pyvcp.rpm-out
+    61  float IN              0  pyvcp.run-speed
+    61  float IN              0  pyvcp.spindle-load-speed
+    61  float IN              0  pyvcp.spindle-run-time
+

@@ -1,0 +1,61 @@
+component scalebelts "LinuxCNC HAL component to scale belts";
+
+
+pin in  float    max_freq = 150  "Maximum Frequency in top gear";
+pin in  float    max_rpm  = 6300 "maximim RPM in top gear";
+pin in  bit      belt1           " Belt 1"; 
+pin in  bit      belt2           " Belt 2"; 
+pin in  bit      belt3           " Belt 3"; 
+pin in  bit      belt4           " Belt 4"; 
+pin in  bit      belt5           " Belt 5"; 
+pin in  bit      belt6           " Belt 6"; 
+pin in  bit      belt7           " Belt 7"; 
+pin in  bit      belt8           " Belt 8"; 
+pin out float    this_max_rpm    "maximim RPM in top gear after adjustment";
+pin out float    multiplier      "multiplier value";
+pin in  float    speed_cmd_in    "spindle speed command from motion";
+pin out float    speed_cmd_out   "Scaled Spindle speed command to VFD";
+pin in  float    speed_fb_in     "Spindle speed fb from VFD";
+pin out float    speed_fb_out    "Scaled Spindle speed fb to motion";   
+pin out unsigned l_gear     "Low Gear";
+pin out unsigned h_gear     "high Gear";
+pin out bit      valid      " Gear is valid" ;
+//belt ratio array [front,back] Hardcoded from tacometer readings
+
+function _;
+license "GPL";
+;;
+FUNCTION(_) {
+double gear[4][4] = {
+                {0.0,0.335353,0.600655,1.000000}, //  -- 1-6,1-7,1-8
+                {0.124052,0.0,0.432816,0.736787}, //  2-5,--,2-7,2-8
+                {0.084350,0.163597,0.0,0.497218},  //  3-5,3-6,--,3-8
+                {0.052443,0.101674,0.180176, 0.0}      //  4-5,4-6,4-7,--
+              };
+unsigned lowgear  = 0;
+unsigned highgear = 0;
+
+    if(belt1) lowgear = 0;
+    else if(belt2 == 1) lowgear = 1;
+    else if(belt3 == 1) lowgear = 2;
+    else if(belt4 == 1) lowgear = 3;
+    
+    if(belt5) highgear = 0;
+    else if(belt6 == 1) highgear = 1;
+    else if(belt7 == 1) highgear = 2;
+    else if(belt8 == 1) highgear = 3;   
+    l_gear = lowgear;
+    h_gear = highgear;      
+    multiplier = (float)gear[lowgear][ highgear];
+    if(multiplier == 0.0){
+      this_max_rpm = 0.0;
+      valid = 0;
+    }
+    else{
+      speed_cmd_out = speed_cmd_in / multiplier;
+      speed_fb_out  = speed_fb_in * multiplier;
+      this_max_rpm  = max_rpm * multiplier;
+      valid  = 1;
+    }
+    
+}

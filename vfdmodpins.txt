@@ -1,0 +1,22 @@
+Component Pins:
+Owner   Type  Dir         Value  Name
+    67  bit   IN          FALSE  vfdmod.control.fault-reset
+    67  bit   IN          FALSE  vfdmod.control.run-forward <== spindle-cw
+    67  bit   IN          FALSE  vfdmod.control.run-reverse <== spindle-ccw
+    67  float OUT          5815  vfdmod.parameters.bus-voltage
+    67  float OUT             0  vfdmod.parameters.fault-code
+    67  float OUT             0  vfdmod.parameters.freq-running
+    67  float OUT             0  vfdmod.parameters.output-current
+    67  float OUT             0  vfdmod.parameters.output-torque
+    67  float OUT             0  vfdmod.parameters.output-voltage
+    67  float OUT           133  vfdmod.parameters.power-on-time
+    67  float OUT             0  vfdmod.parameters.run-speed
+    67  float OUT             0  vfdmod.parameters.spindle-load-speed
+    67  float OUT             0  vfdmod.parameters.spindle-run-time
+    67  s32   OUT             0  vfdmod.rs485.error-count ==> pyvcp-error-count
+    67  bit   OUT          TRUE  vfdmod.rs485.is-connected ==> pyvcp-is-connected
+    67  s32   OUT             0  vfdmod.rs485.last-error ==> pyvcp-last-error
+    67  bit   OUT         FALSE  vfdmod.spindle.at-speed ==> spindle-at-speed
+    67  float IN              0  vfdmod.spindle.rpm-in <== spindle-vel-cmd-rpm
+    67  float OUT             0  vfdmod.spindle.rpm-out
+

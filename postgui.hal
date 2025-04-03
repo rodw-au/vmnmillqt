@@ -1,0 +1,21 @@
+# Spindle output speed
+net spindle-rpm-out vfdmod.spindle.rpm-out => pyvcp.rpm-out
+net spindle-at-speed <= pyvcp.at-speed
+net spindle-at-speed => spindle.0.at-speed
+
+# Communication
+net pyvcp-is-connected vfdmod.rs485.is-connected => pyvcp.is-connected
+net pyvcp-error-count vfdmod.rs485.error-count => pyvcp.error-count
+net pyvcp-last-error vfdmod.rs485.last-error => pyvcp.last-error
+
+# User parameters
+net pyvcp-command-frequency vfdmod.parameters.command-frequency => pyvcp.command-frequency
+net pyvcp-dc-bus-voltage vfdmod.parameters.dc-bus-voltage => pyvcp.dc-bus-voltage
+net pyvcp-output-current vfdmod.parameters.output-current => pyvcp.output-current
+net pyvcp-output-frequency vfdmod.parameters.output-frequency => pyvcp.output-frequency
+
+#qtdrqgon
+net tool-change      hal_manualtoolchange.change   <=  iocontrol.0.tool-change
+net tool-changed     hal_manualtoolchange.changed  <=  iocontrol.0.tool-changed
+net tool-prep-number hal_manualtoolchange.number   <=  iocontrol.0.tool-prep-number
+

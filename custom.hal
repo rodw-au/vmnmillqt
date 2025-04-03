@@ -1,0 +1,6 @@
+loadusr -W vfdmod --debug  /home/mill2/linuxcnc/configs/VMNmill/vfdmod.ini
+
+net spindle-speed-cmd => vfdmod.spindle.rpm-in
+net spindle-at-speed <= vfdmod.spindle.at-speed
+net spindle-cw => vfdmod.control.run-forward
+net spindle-ccw => vfdmod.control.run-reverse

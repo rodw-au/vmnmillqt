@@ -1,0 +1,66 @@
+<pyvcp>
+<labelframe text="BD600vfd">
+
+    <label text="Output RPM:"/>
+    <bar halpin="rpm-out" max_="6300"/>
+
+    <table flexible_rows="[1]" flexible_columns="[2]">
+    <tablerow/>
+        <label text="Spindle at speed"/>
+        <led halpin="at-speed" size="12" on_color="green" off_color="red"/>
+    <tablerow/>
+        <label text="'\nParameters:'"/>
+
+    <!-- User parameters start here -->
+    <tablerow/>
+        <label text="bus-voltage"/>
+        <number halpin="bus-voltage" format=".1f"/>
+    <tablerow/>
+        <label text="fault-code"/>
+        <number halpin="fault-code" format=".1f"/>
+    <tablerow/>
+        <label text="freq-running"/>
+        <number halpin="freq-running" format=".1f"/>
+         <label text="'\nRS485:'"/>
+    <tablerow/>
+        <label text="Is connected"/>
+        <led halpin="is-connected" size="12" on_color="green" off_color="red"/>
+    <tablerow/>
+        <label text="Error count"/>
+        <s32 halpin="error-count"/>
+    <tablerow/>
+        <label text="Last error"/>
+        <s32 halpin="last-error"/>
+    </table>
+
+    <button>
+        <halpin>"fault-reset"</halpin>
+        <text>"FAULT RESET"</text>
+    </button>
+
+</labelframe>
+<labelframe text="Front Gear">
+    <radiobutton>
+      <choices>["Belt-1","Belt-2","Belt-3","Belt-4" ]</choices>
+      <halpin>"gear"</halpin>
+      <initval>2</initval>
+   </radiobutton>
+</labelframe>
+<labelframe text="Back Gear">
+ <radiobutton>
+    <choices>["Belt-5","Belt-6","Belt-7","Belt-8" ]</choices>
+    <halpin>"gear"</halpin>
+    <initval>3</initval>
+ </radiobutton>
+</labelframe>
+<labelframe text="Final Drive">
+  <label text="maxRPM: "/>
+  <number halpin="maxRPM"/>
+  <led>
+    <halpin>"Valid-Gears"</halpin>
+    <size>30</size>
+    <on_color>"green"</on_color>
+    <off_color>"red"</off_color>
+  </led>
+</labelframe>
+</pyvcp>

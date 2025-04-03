@@ -1,0 +1,67 @@
+# Spindle output speed
+loadrt scale names=scale_to_rps
+loadrt conv_float_u32 names=conv_err
+loadrt conv_s32_u32 names=conv_err_count
+
+addf scale_to_rps   servo-thread
+addf conv_err       servo-thread	
+addf conv_err_count servo-thread
+
+setp scale_to_rps.gain 0.01666667
+
+# scale to RPS
+net spindle-rpm-out vfdmod.spindle.rpm-out => scale_to_rps.in
+# send raw feedback to be scaled
+net spindle_rps_out scale_to_rps.out => scalebelts.0.speed-fb-in
+# send scaled speedback to linuxcnc
+net spindle-adj_speed scalebelts.0.speed-fb-out => spindle.0.speed-in
+
+net spindle-at-speed vfdmod.spindle.at-speed => spindle.0.at-speed
+#net spindle-at-speed => qtdragon.spindle-is-at-speed
+net  spindle-volts vfdmod.parameters.output-voltage => qtdragon.spindle-volts
+net  spindle-amps vfdmod.parameters.output-current => qtdragon.spindle-amps
+
+# Communication
+net vfd-connected <= vfdmod.rs485.is-connected 
+net vfd-connected => qtdragon.belts.RS485-connected
+
+# Fault reset!
+# Because of ordinary button click is too short, it's necessary
+# to prolong fault reset output in active state for a while.
+loadrt oneshot names=fault-reset-delay
+addf fault-reset-delay servo-thread
+
+# Two seconds delay should be enough.
+setp fault-reset-delay.width 2
+net fault-reset-short qtdragon.belts.vfd-reset => fault-reset-delay.in
+net Fault-reset-long fault-reset-delay.out => vfdmod.control.fault-reset
+
+# User parameters
+net conv-err:in vfdmod.parameters.fault-code => conv_err.in
+net conv-errs:out  conv_err.out => qtdragon.spindle-fault
+
+net err-count:in   vfdmod.rs485.error-count => conv_err_count.in 
+net err-count:out   conv_err_count.out => qtdragon.spindle-modbus-errors
+ 
+
+net freq-running vfdmod.parameters.freq-running => qtdragon.belts.vfdfrequency
+
+net pyvcp-output-torque vfdmod.parameters.output-torque => qtdragon.belts.motortorque
+#net pyvcp-spindle-load-speed vfdmod.parameters.spindle-load-speed => pyvcp.spindle-load-speed
+net pyvcp-spindle-run-time vfdmod.parameters.spindle-run-time => qtdragon.belts.spindleontime
+net pyvcp-spindle-power-on-time vfdmod.parameters.power-on-time => qtdragon.belts.timeon
+
+net belt:1 qtdragon.belts.belt-1 => scalebelts.0.belt1
+net belt:2 qtdragon.belts.belt-2 => scalebelts.0.belt2
+net belt:3 qtdragon.belts.belt-3 => scalebelts.0.belt3
+net belt:4 qtdragon.belts.belt-4 => scalebelts.0.belt4
+net belt:5 qtdragon.belts.belt-5 => scalebelts.0.belt5
+net belt:6 qtdragon.belts.belt-6 => scalebelts.0.belt6
+net belt:7 qtdragon.belts.belt-7 => scalebelts.0.belt7
+net belt:8 qtdragon.belts.belt-8 => scalebelts.0.belt8
+net this:max:rpm  scalebelts.0.this-max-rpm => qtdragon.belts.this-max-rpm
+
+net tool-change      hal_manualtoolchange.change   <=  iocontrol.0.tool-change
+net tool-changed     hal_manualtoolchange.changed  <=  iocontrol.0.tool-changed
+net tool-prep-number hal_manualtoolchange.number   <=  iocontrol.0.tool-prep-number
+
